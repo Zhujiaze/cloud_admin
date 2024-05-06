@@ -1,5 +1,5 @@
-import registerElementPlusIcon from './src/global/registerElementPlusIcon.js'
-import registerElementPlus from './src/global/registerElementPlus.js'
+import registerElementPlusIcon from './registerElementPlusIcon.js'
+import registerElementPlus from './registerElementPlus.js'
 import type { App } from 'vue'
 
 export const setRegisterGlobal = (app: App) => {

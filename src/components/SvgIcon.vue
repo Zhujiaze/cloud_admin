@@ -16,8 +16,10 @@ const props = withDefaults(defineProps<{
 const render = () => {
     if (props.icon) {
         return h(resolveComponent('el-icon'),
-            { size: props.size, color: props.color },
-            () => h(resolveComponent(props.icon)))
+            {
+                size: props.size,
+                color: props.color
+            }, () => h(resolveComponent(props.icon)))
     } else {
         h("i")
     }
