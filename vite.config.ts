@@ -1,6 +1,6 @@
 import { fileURLToPath, URL } from 'node:url'
-
 import { defineConfig, loadEnv } from 'vite'
+
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 
@@ -19,7 +19,7 @@ export default defineConfig(({ mode }) => {
       proxy: {
         [env.VITE_APP_BASE_API]: {
           //要跨域的地址
-          target: 'https://mock.mengxuegu.com/mock/66384e30cab9671f88bd3027',
+          target: 'https://mock.mengxuegu.com/mock/66384e30cab9671f88bd3027/api/v1',
           //是否允许跨域
           changeOrigin: true,
           //路径重写

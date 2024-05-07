@@ -1,30 +1,57 @@
-import axios from 'axios';
+import axios, {
+    type InternalAxiosRequestConfig,
+    type AxiosInstance,
+    type AxiosError,
+    type AxiosResponse,
+    type AxiosRequestConfig
+} from 'axios';
 
-const server = axios.create({
+const server: AxiosInstance = axios.create({
     // baseURL: 'http://www.tangxiaoyang.vip:8888/api/v2',
-    baseURL: import.meta.env.VITE_APP_BASE_API,
+    baseURL: "https://mock.mengxuegu.com/mock/66384e30cab9671f88bd3027/api/v1",
     timeout: 10000,
 
 })
 
 // 添加请求拦截器
-server.interceptors.request.use(function (config) {
-    // 在发送请求之前做些什么
-    return config;
-}, function (error) {
-    // 对请求错误做些什么
-    return Promise.reject(error);
-});
+server.interceptors.request.use(
+    (config: InternalAxiosRequestConfig) => {
+
+        return config;
+    }, (error: AxiosError) => {
+
+        return Promise.reject(error);
+    });
 
 // 添加响应拦截器
-server.interceptors.response.use(function (response) {
-    // 2xx 范围内的状态码都会触发该函数。
-    // 对响应数据做点什么
-    return response;
-}, function (error) {
-    // 超出 2xx 范围的状态码都会触发该函数。
-    // 对响应错误做点什么
-    return Promise.reject(error);
-});
+server.interceptors.response.use(
+    (response: AxiosResponse) => {
 
-export default server;
+        return response;
+    }, (error: AxiosError) => {
+
+        return Promise.reject(error);
+    });
+
+type DataType<T = any> = {
+    code: number,
+    data: T,
+    msg: string
+}
+
+
+
+const request = <T = any>(url: string, method: string = "GET", data?: object, options?: AxiosRequestConfig) => {
+    return server.request<T, DataType<T>>({
+        url,
+        method,
+        [method == "GET" ? "params" : "data"]: data,
+        ...options
+    });
+}
+
+
+
+
+
+export default request;

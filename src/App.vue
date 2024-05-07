@@ -1,17 +1,11 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import server from '@/utils/request'
 
+import { getList } from './api/test'
 
-const dddd = () => {
-  const res = server.request({
-    url: '/focus',
-    method: 'get'
-  })
-  
+getList().then((res: any) => {
   console.log(res)
-
-}
+})
 
 
 
@@ -20,7 +14,6 @@ const dddd = () => {
 
 <template>
 
-  <SvgIcon icon="Edit" size="16" color="blue" @click="dddd" />
 
 
   <RouterView />
