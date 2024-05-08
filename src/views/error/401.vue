@@ -1,7 +1,5 @@
 <template>
-    <el-main>
-        <router-view></router-view>
-    </el-main>
+    <div>401</div>
 </template>
 
 <script lang="ts" setup>

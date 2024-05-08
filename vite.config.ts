@@ -23,7 +23,8 @@ export default defineConfig(({ mode }) => {
           //是否允许跨域
           changeOrigin: true,
           //路径重写
-          rewrite: (path) => path.replace(/`^\${env.VITE_APP_BASE_API}`/, '')
+          // rewrite: (path) => path.replace(/`^\${env.VITE_APP_BASE_API}`/, '')
+          rewrite: (path) => path.replace(new RegExp(`^${env.VITE_APP_BASE_API}`), '')
         }
       }
 

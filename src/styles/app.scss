@@ -1,0 +1,39 @@
+:root {
+    --jy-color-primary: #196fff;
+}
+
+
+
+
+
+
+
+.layout-container {
+    .layout-aside {
+
+        
+
+        .layout-logo {
+            height: 50px;
+            // background-color: red;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--el-color-primary);
+            cursor: pointer;
+
+            span {
+
+                font-size: 16px;
+                margin-left: 5px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+
+        .layout-logo-img {
+            width: 26px;
+        }
+    }
+}

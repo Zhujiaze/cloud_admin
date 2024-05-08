@@ -1,57 +1,67 @@
 import axios, {
-    type InternalAxiosRequestConfig,
-    type AxiosInstance,
-    type AxiosError,
     type AxiosResponse,
-    type AxiosRequestConfig
+    type AxiosError,
+    type InternalAxiosRequestConfig
 } from 'axios';
 
-const server: AxiosInstance = axios.create({
-    // baseURL: 'http://www.tangxiaoyang.vip:8888/api/v2',
-    baseURL: "https://mock.mengxuegu.com/mock/66384e30cab9671f88bd3027/api/v1",
+const servite = axios.create({
+    baseURL: import.meta.env.VITE_APP_BASE_API,
     timeout: 10000,
-
 })
 
 // 添加请求拦截器
-server.interceptors.request.use(
+servite.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
-
+        // 在发送请求之前做些什么                                                                                                           
         return config;
     }, (error: AxiosError) => {
-
+        // 对请求错误做些什么
         return Promise.reject(error);
     });
 
 // 添加响应拦截器
-server.interceptors.response.use(
+servite.interceptors.response.use(
     (response: AxiosResponse) => {
-
+        // 2xx 范围内的状态码都会触发该函数                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 。
+        // 对响应数据做点什么
         return response;
     }, (error: AxiosError) => {
-
+        // 超出 2xx 范围的状态码都会触发该函数。
+        // 对响应错误做点什么
         return Promise.reject(error);
     });
 
+
 type DataType<T = any> = {
     code: number,
-    data: T,
-    msg: string
+    message: string,
+    data: T
 }
 
 
 
-const request = <T = any>(url: string, method: string = "GET", data?: object, options?: AxiosRequestConfig) => {
-    return server.request<T, DataType<T>>({
+const request = <T = any>(
+    url: string,
+    method: string = 'get',
+    data?: object,
+    options?: InternalAxiosRequestConfig
+) => {
+    return servite.request<T, DataType<T>>({
         url,
         method,
-        [method == "GET" ? "params" : "data"]: data,
+        [method == 'get' ? 'params' : "data"]: data,
         ...options
-    });
+    })
 }
 
 
 
 
+export default request
 
-export default request;
+
+
+
+
+
+
