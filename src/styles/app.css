@@ -111,6 +111,31 @@
   margin: 0 5px;
 }
 
+.layout-container .layout-main {
+  padding: 0 !important;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.layout-container .layout-main .layout-main-wrap {
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+}
+
+.layout-padding {
+  border: 1px solid var(--jy-border-color-light);
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 /*** NavMenu 导航菜单样式 
 ------------------------------------- ****/
 .el-menu {
