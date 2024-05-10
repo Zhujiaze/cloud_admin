@@ -49,6 +49,8 @@ import { ref, reactive } from "vue";
 import type { ComponentSize, FormInstance, FormRules } from 'element-plus'
 import { Local } from '../../utils/storage'
 import router from "@/router";
+import { useAutherStore } from '../../stores/auth'
+const store = useAutherStore()
 interface RuleForm {
     username: string
     password: string
@@ -82,7 +84,7 @@ const ruleFormRef = ref<FormInstance>()
 const state = reactive({
     isRemember: Local.get('isRemember') || false,
     ruleForm: {
-        username: Local.get('username') || "",
+        username: Local.get('username') || "17802901987",
         password: Local.get('password') || ''
     }
 })
@@ -102,24 +104,18 @@ const rules = reactive<FormRules<RuleForm>>({
 })
 
 const submitForm = async (formEl: FormInstance | undefined) => {
-    if (!formEl) return
-    await formEl.validate((valid, fields) => {
+    ruleFormRef.value!.validate(async (valid: boolean) => {
         if (valid) {
-            if (state.isRemember) {
-                Local.set('username', state.ruleForm.username)
-                Local.set('password', state.ruleForm.password)
-                Local.set('isRemember', state.isRemember)
-            } else {
-                Local.remove('username')
-                Local.remove('password')
-                Local.remove('isRemember')
-            }
-            router.push('/home')
+            // 存储账号与密码
+            store.setRememberPwd(state);
 
-        } else {
-            console.log('error submit!', fields)
+            // 调用pinia中定义的userlogin
+            await store.userLogin(state);
+
+            // 跳转到主页
+            router.push("/");
         }
-    })
+    });
 }
 
 

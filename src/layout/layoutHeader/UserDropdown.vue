@@ -2,7 +2,10 @@
 import { useRouter } from 'vue-router'
 import { useFullscreen, useDark } from '@vueuse/core'
 import 'element-plus/theme-chalk/dark/css-vars.css'
+import { useAutherStore } from '../../stores/auth'
 
+
+const store = useAutherStore()
 const routet = useRouter()
 
 const { isFullscreen, toggle } = useFullscreen()
@@ -21,8 +24,14 @@ const isDark = useDark({
 
 
 // 退出登录
-const logout = () => {
-    alert("退出登录");
+const logout = async () => {
+    try {
+        await store.userLogout()
+    }
+    catch (err) {
+        console.log(err);
+
+    }
 };
 </script>
 <template>
@@ -38,9 +47,9 @@ const logout = () => {
         <!-- 下拉菜单 -->
         <el-dropdown>
             <span class="el-dropdown-link">
-                <el-avatar :size="30" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
+                <el-avatar :size="30" :src="store.userInfo?.imageUrl" />
 
-                <span class="username">张三</span>
+                <span class="username">{{ store.userInfo?.username }}</span>
 
                 <el-icon class="el-icon--right"><arrow-down /></el-icon>
             </span>
