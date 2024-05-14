@@ -1,4 +1,21 @@
 <template>
+  <el-form :inline="true" :model="searchFormKey" class="demo-form-inline">
+    <el-form-item label="菜单名称">
+      <el-input
+        v-model="searchFormKey.keyword"
+        placeholder="请输入菜单名称"
+        clearable
+      />
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click="initMenuList" icon="search"
+        >查询</el-button
+      >
+      <el-button type="success" icon="Plus" @click="handAdd('')"
+        >新增菜单</el-button
+      >
+    </el-form-item>
+  </el-form>
   <el-table
     :data="menuList"
     style="width: 100%; margin-bottom: 20px"
@@ -22,9 +39,6 @@
     </el-table-column>
     <el-table-column align="center" label="类型">
       <template #default="{ row }">
-        <!-- <el-tag :type="row.type == 1 ? 'primary' : 'success'">{{
-            row.type == 1 ? "菜单" : "按钮"
-          }}</el-tag> -->
         <el-tag v-if="row.type == 1" type="primary">菜单</el-tag>
         <el-tag v-if="row.type == 2" type="success">按钮</el-tag>
       </template>
@@ -32,10 +46,22 @@
     <el-table-column align="center" prop="sort" label="排序" />
     <el-table-column align="center" label="操作">
       <template #default="{ row }">
-        <el-button type="primary" icon="Plus" link size="small"
+        <el-button
+          type="primary"
+          icon="Plus"
+          link
+          size="small"
+          @click="handAdd(row.id)"
           >新增下级</el-button
         >
-        <el-button type="warning" icon="Edit" link size="small">修改</el-button>
+        <el-button
+          type="warning"
+          icon="Edit"
+          link
+          size="small"
+          @click="handEdit(row)"
+          >修改</el-button
+        >
 
         <el-popconfirm
           :title="`确定要删除${row.meta.title}`"
@@ -52,24 +78,33 @@
       </template>
     </el-table-column>
   </el-table>
+
+  <!-- 弹窗 -->
+  <menuDialog ref="dialogRef" @refresh="handleRefresh"></menuDialog>
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive } from "vue";
+import { ref, defineAsyncComponent } from "vue";
 import { getMenuList } from "../../../api/system/menu";
-import type { ResponseMenuListType } from "@/api/types/menuType";
+import type { MenuParamsType } from "@/api/types/menuType";
 
-const menuList = ref<ResponseMenuListType[]>([]);
+const menuDialog = defineAsyncComponent(
+  () => import("@/views/system/menu/components/meun-dialog.vue")
+);
+
+const menuList = ref<any>([]);
 
 const searchFormKey = ref({
   keyword: "",
 });
+//暴路子组件的实例
+const dialogRef = ref();
 
 const initMenuList = async () => {
   try {
     const res = await getMenuList(searchFormKey.value);
     menuList.value = res.data;
-    console.log(menuList);
+    // console.log(menuList);
   } catch (err) {
     console.log(err);
   }
@@ -91,6 +126,17 @@ const delmenu = async (row: any) => {
   } catch (err) {
     console.log(err);
   }
+};
+const handAdd = (id: string) => {
+  console.log("id==>", id);
+
+  dialogRef.value.openDrawer("add", "新增菜单", { parentId: id });
+};
+const handleRefresh = () => {
+  initMenuList();
+};
+const handEdit = (row: MenuParamsType) => {
+  dialogRef.value.openDrawer("edit", "编辑菜单", { row });
 };
 </script>
 
