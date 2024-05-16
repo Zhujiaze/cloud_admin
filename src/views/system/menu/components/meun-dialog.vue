@@ -157,7 +157,7 @@
 <script lang="ts" setup>
 import type { MenuselectType, formDataMenuType } from "@/api/types/menuType";
 import { addMenu, editMenu, selectMenu } from "@/api/system/menu";
-import { ref, reactive } from "vue";
+import { ref, reactive, nextTick } from "vue";
 import { ElNotification, type FormInstance } from "element-plus";
 import _ from "lodash";
 const visible = ref<boolean>(false);
@@ -186,7 +186,25 @@ const formData = ref<formDataMenuType>({
 
 // 关闭抽屉之前触发的方法
 const handleClose = () => {
-  formDataRef.value?.resetFields();
+  formData.value = {
+    type: "1",
+    sort: 1,
+    meta: {
+      hidden: false,
+      cache: false,
+      title: "",
+      icon: "",
+    },
+    path: "",
+    name: "",
+    component: "",
+    redirect: "",
+    remark: "",
+    parentId: "",
+    code: "",
+  };
+
+  // formDataRef.value?.resetFields();
   visible.value = false;
 };
 
@@ -245,7 +263,6 @@ const submitForm = async () => {
     } else {
       //编辑
       const res = await editMenu(formData.value);
-      console.log(res);
     }
   } catch (error) {
     console.log(error);
@@ -262,7 +279,9 @@ const openDrawer = (type: string, title: string, data = {} as any) => {
 
   formData.value.parentId = data.parentId;
   if (type == "edit") {
-    formData.value = _.cloneDeep(data.row);
+    nextTick(() => {
+      formData.value = _.cloneDeep(data.row);
+    });
   }
 };
 

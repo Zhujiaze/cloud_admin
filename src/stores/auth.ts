@@ -77,7 +77,6 @@ export const useAutherStore = defineStore('auth', () => {
         try {
             const res = await login(state.ruleForm)
             setToken(res.data.access_token)
-            console.log(res);
             return res
         } catch (err) {
             console.log(err);

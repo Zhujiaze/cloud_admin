@@ -128,8 +128,6 @@ const delmenu = async (row: any) => {
   }
 };
 const handAdd = (id: string) => {
-  console.log("id==>", id);
-
   dialogRef.value.openDrawer("add", "新增菜单", { parentId: id });
 };
 const handleRefresh = () => {
