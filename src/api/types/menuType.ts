@@ -40,7 +40,6 @@ export type DatumChild = {
   type: string;
   updateTime: string;
 };
-
 export type ChildChild = {
   children: string[];
   code: string;
@@ -56,7 +55,6 @@ export type ChildChild = {
   type: string;
   updateTime: string;
 };
-
 export type PurpleMeta = {
   cache: boolean;
   hidden: boolean;
@@ -77,50 +75,6 @@ export type DatumMeta = {
   icon: string;
   linkTo: string;
   title: string;
-};
-
-//菜单添加类型
-export type formDataMenuType = {
-  /**
-   * 权限标识
-   */
-  code?: string;
-  /**
-   * 组件路径
-   */
-  component: string;
-  /**
-   * 路由信息
-   */
-  meta: Meta;
-  /**
-   * 路由名称
-   */
-  name: string;
-  /**
-   * 上级菜单
-   */
-  parentId: string;
-  /**
-   * 路由地址
-   */
-  path: string;
-  /**
-   * 重定向
-   */
-  redirect: string;
-  /**
-   * 备注
-   */
-  remark: string;
-  /**
-   * 排序
-   */
-  sort: number;
-  /**
-   * 菜单类型
-   */
-  type: string;
 };
 
 /**
@@ -145,7 +99,30 @@ export type Meta = {
   title: string;
 };
 
-//添加接口类型
+// 选择菜单接口返回的数据类型
+export type ResponseSelectMenuType = {
+  code: number;
+  data: Datum[];
+  message: string;
+};
+
+export type Datum = {
+  children: Child[];
+  id: string;
+  parentId: null;
+  title: string;
+};
+
+export type Child = {
+  children: string[];
+  id: string;
+  parentId: string;
+  title: string;
+};
+
+/**
+ * 新增菜单的参数类型
+ */
 export type MenuParamsType = {
   createTime?: string;
   updateTime?: string;
@@ -191,28 +168,4 @@ export type MenuParamsType = {
    * 权限标识
    */
   code?: string;
-};
-
-//选择菜单数据类型
-export type MenuselectType = {
-  code: number;
-  data: Datum[];
-  message: string;
-  [property: string]: any;
-};
-
-export type Datum = {
-  children: Child[];
-  id: string;
-  parentId: null;
-  title: string;
-  [property: string]: any;
-};
-
-export type Child = {
-  children: string[];
-  id: string;
-  parentId: string;
-  title: string;
-  [property: string]: any;
 };

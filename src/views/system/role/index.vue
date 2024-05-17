@@ -31,7 +31,13 @@
       <el-table-column align="center" prop="remark" label="备注" />
       <el-table-column align="center" label="操作">
         <template #default="{ row }">
-          <el-button icon="edit" type="primary" link>分配权限</el-button>
+          <el-button
+            icon="edit"
+            type="primary"
+            link
+            @click="handlePermission(row)"
+            >分配权限</el-button
+          >
           <el-button icon="edit" type="warning" link @click="handleEdit(row)"
             >修改</el-button
           >
@@ -61,6 +67,9 @@
 
   <!-- 弹窗 -->
   <RoleDialog ref="roleDialogRef" @refresh="handleRefresh"></RoleDialog>
+
+  <!-- 对话框 -->
+  <RolePermission ref="rolePermisssionRef"></RolePermission>
 </template>
 
 <script lang="ts" setup>
@@ -71,16 +80,22 @@ import type { Record } from "../../../api/types/roleType";
 const RoleDialog = defineAsyncComponent(
   () => import("./components/role-dialog.vue")
 );
+const RolePermission = defineAsyncComponent(
+  () => import("./components/permission.vue")
+);
 //打开新增对话框
 const handAdd = () => {
   roleDialogRef.value.openDialog("add", "新增角色");
 };
 
+const handlePermission = (row: Record) => {
+  rolePermisssionRef.value!.openDrawer(`分配【${row.roleName}】的权限`, row.id);
+};
+
 //抽屉实例
+const rolePermisssionRef = ref();
 const roleDialogRef = ref();
-
 const roleList = ref<Record[]>([]);
-
 const current = ref<number>(1);
 const size = ref<number>(10);
 const total = ref<number>(0);
